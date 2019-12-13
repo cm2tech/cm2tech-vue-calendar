@@ -1,0 +1,55 @@
+{
+  "name": "cm2tech-vue-calendar",
+  "version": "1.0.0",
+  "description": "Componentes Calendário e Agenda em Vue.js",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "webpack --config config/webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cm2tech/cm2tech-vue-calendar.git"
+  },
+  "keywords": [
+    "calendario",
+    "agenda",
+    "vuejs",
+    "cm2tech",
+    "drconecta"
+  ],
+  "author": "Alan Ives",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cm2tech/cm2tech-vue-calendar/issues"
+  },
+  "homepage": "https://github.com/cm2tech/cm2tech-vue-calendar#readme",
+  "dependencies": {
+    "core-js": "^3.4.3",
+    "moment": "^2.24.0",
+    "normalize.css": "^8.0.1",
+    "vue": "^2.6.10"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.1.0",
+    "@vue/cli-plugin-eslint": "^4.1.0",
+    "@vue/cli-service": "^4.1.0",
+    "@vue/eslint-config-airbnb": "^4.0.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.3",
+    "babel-loader": "^8.0.6",
+    "babel-preset-env": "^1.7.0",
+    "cross-env": "^6.0.3",
+    "css-loader": "^3.3.2",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "file-loader": "^5.0.2",
+    "node-sass": "^4.13.0",
+    "sass": "^1.23.7",
+    "sass-loader": "^8.0.0",
+    "vue-loader": "^15.7.2",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
+  }
+}
