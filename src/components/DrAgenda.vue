@@ -90,7 +90,7 @@ export default {
   props: {
     selectedDate: {
       type: String,
-      required: true,
+      required: false,
       default: () => (new Date()).toISOString(),
     },
 
@@ -247,6 +247,7 @@ export default {
           titleTag.innerText = event.title;
 
           eventTag.classList.add('dr-agenda__event');
+          event.className.forEach(c => eventTag.classList.add(c));
           eventTag.style.height = `${eventTagHeight}px`;
           eventTag.style.top = `${this.getTopPosition(event.date)}%`;
           eventTag.appendChild(titleTag);
