@@ -51,6 +51,11 @@
 </template>
 
 <script>
+import moment from 'moment';
+import 'moment/locale/pt-br';
+
+moment.locale('pt-br');
+
 export default {
   name: 'DrCalendar',
 
@@ -63,7 +68,7 @@ export default {
   props: {
     selectedDate: {
       type: String,
-      required: true,
+      required: false,
       default: () => (new Date()).toISOString(),
     },
 
@@ -82,19 +87,19 @@ export default {
 
   data() {
     return {
-      today: this.$moment(),
+      today: moment(),
       currentDate: Object,
-      weekdayNames: this.$moment.weekdays(),
+      weekdayNames: moment.weekdays(),
     };
   },
 
   computed: {
     year() {
-      return this.$moment(this.currentDate).format('YYYY');
+      return moment(this.currentDate).format('YYYY');
     },
 
     month() {
-      return this.$moment(this.currentDate).format('MMMM');
+      return moment(this.currentDate).format('MMMM');
     },
 
     days() {
@@ -103,10 +108,10 @@ export default {
 
       for (
         let i = 1;
-        i <= this.$moment(this.currentDate).daysInMonth();
+        i <= moment(this.currentDate).daysInMonth();
         i += 1
       ) {
-        const className = (this.$moment(this.currentDate).date() === i + 1)
+        const className = (moment(this.currentDate).date() === i + 1)
           ? 'dr-calendar__day--selected'
           : '';
 
@@ -115,10 +120,10 @@ export default {
 
       // Previous month's days
       const prevDays = [];
-      const prevMonth = this.$moment(this.currentDate).add(-1, 'M');
-      const firstWeekday = this.$moment().set({
-        year: this.$moment(this.currentDate).year(),
-        month: this.$moment(this.currentDate).month(),
+      const prevMonth = moment(this.currentDate).add(-1, 'M');
+      const firstWeekday = moment().set({
+        year: moment(this.currentDate).year(),
+        month: moment(this.currentDate).month(),
         date: 1,
       }).day();
 
@@ -132,7 +137,7 @@ export default {
 
       // Next month's days
       const nextDays = [];
-      const limit = prevDays.length + parseInt(this.$moment(this.currentDate).daysInMonth(), 10);
+      const limit = prevDays.length + parseInt(moment(this.currentDate).daysInMonth(), 10);
 
       for (
         let i = 1;
@@ -147,17 +152,17 @@ export default {
   },
 
   beforeMount() {
-    this.currentDate = { ...this.$moment(this.selectedDate) };
+    this.currentDate = { ...moment(this.selectedDate) };
   },
 
   methods: {
     selectDay(day, event) {
-      this.currentDate = { ...this.$moment(day) };
-      this.fn(this.$moment(this.currentDate).startOf('d').toISOString(), event);
+      this.currentDate = { ...moment(day) };
+      this.fn(moment(this.currentDate).startOf('d').toISOString(), event);
     },
 
     addMonth(m) {
-      this.currentDate = { ...this.$moment(this.currentDate).add(m, 'M') };
+      this.currentDate = { ...moment(this.currentDate).add(m, 'M') };
     },
 
     createDay(date, day, pos) {
@@ -165,18 +170,18 @@ export default {
       if (pos === 'next') amount = 1;
       if (pos === 'prev') amount = -1;
 
-      const newDate = this.$moment(date).add(amount, 'M');
-      const moment = this.$moment().set({
-        year: this.$moment(newDate).year(),
-        month: this.$moment(newDate).month(),
+      const newDate = moment(date).add(amount, 'M');
+      const momentObject = moment().set({
+        year: moment(newDate).year(),
+        month: moment(newDate).month(),
         date: day,
       });
 
       const className = [];
-      if (this.$moment(this.$moment(this.today)).isSame(moment, 'day')) {
+      if (moment(moment(this.today)).isSame(momentObject, 'day')) {
         className.push('dr-calendar__day--today');
       }
-      if (this.$moment(this.$moment(this.currentDate)).isSame(moment, 'day')) {
+      if (moment(moment(this.currentDate)).isSame(momentObject, 'day')) {
         className.push('dr-calendar__day--selected');
       }
 
@@ -184,10 +189,10 @@ export default {
       if (pos === 'prev') className.push('dr-calendar__day--prev');
 
       return {
-        ...moment,
-        year: this.$moment(moment).year(),
-        month: this.$moment(moment).month(),
-        day: this.$moment(moment).date(),
+        moment: momentObject,
+        year: moment(momentObject).year(),
+        month: moment(momentObject).month(),
+        day: moment(momentObject).date(),
         class: className,
       };
     },

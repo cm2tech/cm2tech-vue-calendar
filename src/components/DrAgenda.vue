@@ -58,6 +58,11 @@
 </template>
 
 <script>
+import moment from 'moment';
+import 'moment/locale/pt-br';
+
+moment.locale('pt-br');
+
 const settings = {
   interval: '01:00',
   start: '00:00',
@@ -105,7 +110,7 @@ export default {
   data() {
     return {
       counter: null,
-      now: this.$moment(),
+      now: moment(),
     };
   },
 
@@ -113,19 +118,19 @@ export default {
     config() {
       const copy = { ...settings };
       Object.keys(this.settings).forEach(key => delete copy[key]);
+
       const config = { ...this.settings, ...copy };
-      config.interval = this.$moment.duration(config.interval).asMinutes();
+      config.interval = moment.duration(config.interval).asMinutes();
       config.interval = (config.interval > 0) ? config.interval : 60;
-      config.start = this.$moment.duration(config.start).asMinutes();
-      config.end = this.$moment.duration(config.end).asMinutes();
-      config.today = this.$moment().startOf('d');
-      config.selectedDate = this.$moment(this.selectedDate).startOf('d');
+      config.start = moment.duration(config.start).asMinutes();
+      config.end = moment.duration(config.end).asMinutes();
+      config.today = moment().startOf('d');
+      config.selectedDate = moment(this.selectedDate).startOf('d');
       config.weekdays = this.getWeekdays(config.daysView, config.selectedDate);
       config.grid = {
         columns: config.daysView,
         rows: Math.floor((config.end - config.start) / config.interval),
       };
-
       config.fn = ('fn' in this.settings) ? this.settings.fn : this.selectDatetime;
 
       return config;
@@ -163,7 +168,7 @@ export default {
   methods: {
     init() {
       if (this.createTimeMarker()) {
-        this.counter = setInterval(() => { this.now = this.$moment(); }, 60000);
+        this.counter = setInterval(() => { this.now = moment(); }, 60000);
       }
       this.placeEvents();
     },
@@ -181,7 +186,7 @@ export default {
     setDatetime(day, time = 0) {
       let hours = 0;
       let minutes = 0;
-      const date = this.$moment(day);
+      const date = moment(day);
 
       if (time > 0) {
         const total = (time * this.config.interval) + this.config.start;
@@ -195,7 +200,7 @@ export default {
 
     createTimeMarker() {
       this.destroyTimeMarker();
-      const now = this.$moment(this.config.today).startOf('d').toISOString();
+      const now = moment(this.config.today).startOf('d').toISOString();
       const gridColumn = document.querySelectorAll(`[datetime='${now}'].dr-agenda__grid-column`)[0];
 
       if (gridColumn) {
@@ -214,8 +219,8 @@ export default {
       const marker = document.querySelectorAll('.dr-agenda__timemarker')[0];
 
       if (marker) {
-        const agendaStart = this.$moment().startOf('d').minutes(this.config.start);
-        const agendaEnd = this.$moment().startOf('d').minutes(this.config.end);
+        const agendaStart = moment().startOf('d').minutes(this.config.start);
+        const agendaEnd = moment().startOf('d').minutes(this.config.end);
 
         if (time.isSameOrAfter(agendaStart, 'm') && time.isSameOrBefore(agendaEnd, 'm')) {
           marker.style.top = `${this.getTopPosition(time)}%`;
@@ -231,7 +236,7 @@ export default {
 
       this.events.forEach((event) => {
         if (this.shouldEventBePlaced(event.date)) {
-          const day = this.$moment(event.date).startOf('d').toISOString();
+          const day = moment(event.date).startOf('d').toISOString();
           const column = document.querySelector(`[datetime='${day}'].dr-agenda__grid-column`);
           const eventTag = document.createElement('div');
           const bleed = this.eventBleed(event.date, event.duration);
@@ -252,12 +257,12 @@ export default {
     },
 
     getTopPosition(date) {
-      const time = this.$moment()
+      const time = moment()
         .startOf('d')
-        .hours(this.$moment(date).hours())
-        .minutes(this.$moment(date).minutes());
+        .hours(moment(date).hours())
+        .minutes(moment(date).minutes());
 
-      let minutesTillNow = this.$moment.duration(time.diff(this.config.today)).asMinutes();
+      let minutesTillNow = moment.duration(time.diff(this.config.today)).asMinutes();
       minutesTillNow = parseInt(minutesTillNow, 10) - this.config.start;
 
       let scale = (this.config.end - this.config.start);
@@ -267,13 +272,13 @@ export default {
     },
 
     shouldEventBePlaced(time) {
-      const today = this.$moment().startOf('d');
-      const date = this.$moment()
+      const today = moment().startOf('d');
+      const date = moment()
         .startOf('d')
-        .hours(this.$moment(time).hours())
-        .minutes(this.$moment(time).minutes());
-      const minutes = this.$moment.duration(date.diff(today)).asMinutes();
-      const when = this.$moment(time).startOf('d');
+        .hours(moment(time).hours())
+        .minutes(moment(time).minutes());
+      const minutes = moment.duration(date.diff(today)).asMinutes();
+      const when = moment(time).startOf('d');
       const inAgendaView = document.querySelectorAll(`[datetime='${when.toISOString()}'].dr-agenda__grid-column`);
 
       return (inAgendaView.length > 0)
@@ -281,18 +286,18 @@ export default {
     },
 
     eventBleed(time, duration) {
-      const start = this.$moment(time);
-      const end = this.$moment(start).minutes(duration);
-      const day = this.$moment(start).startOf('d');
-      const minutes = this.$moment.duration(end.diff(day)).asMinutes();
+      const start = moment(time);
+      const end = moment(start).minutes(duration);
+      const day = moment(start).startOf('d');
+      const minutes = moment.duration(end.diff(day)).asMinutes();
 
       return (this.config.end >= minutes) ? 0 : (minutes - this.config.end - this.config.interval);
     },
 
     getWeekdays(daysView, selectedDate) {
       const week = selectedDate.week();
-      const weekdayNames = this.$moment.weekdays();
-      const currentWeek = this.$moment().week(week).startOf('w');
+      const weekdayNames = moment.weekdays();
+      const currentWeek = moment().week(week).startOf('w');
       const weekdays = [];
       const whichWeekdays = [];
 
@@ -300,14 +305,14 @@ export default {
       for (let i = 0; i < 14; i += 1) {
         day = day > 6 ? 0 : day;
         weekdays.push({
-          date: this.$moment({ ...currentWeek }).add(i, 'd'),
+          date: moment({ ...currentWeek }).add(i, 'd'),
           weekdayName: weekdayNames[day],
           dayInWeek: day,
         });
         day += 1;
       }
 
-      const selectedDateIndex = weekdays.findIndex(d => d.date.isSame(this.$moment(selectedDate)));
+      const selectedDateIndex = weekdays.findIndex(d => d.date.isSame(moment(selectedDate)));
 
       switch (true) {
         case (daysView === 1):
@@ -342,7 +347,7 @@ export default {
 
       return whichWeekdays.map((weekday) => {
         const className = [];
-        const today = this.$moment();
+        const today = moment();
         const datetime = weekday.date.toISOString();
 
         if (weekday.date.isBefore(today, 'd')) {
