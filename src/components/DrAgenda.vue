@@ -248,7 +248,7 @@ export default {
           const bleed = this.eventBleed(event.date, event.duration);
           const eventTagHeight = ((event.duration - bleed) * height) / this.config.interval;
           const titleTag = document.createElement('div');
-          const subttitleTag = document.createElement('div');
+          const subtitleTag = document.createElement('div');
 
           titleTag.classList.add('dr-agenda__event-title');
           titleTag.innerText = event.title;
