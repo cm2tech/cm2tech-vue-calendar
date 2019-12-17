@@ -664,7 +664,8 @@ $event-color: $font-color;
       width: 5px;
     }
 
-    &-title {
+    &-title,
+    &-subtitle {
       box-sizing: border-box;
       display: block;
       font-size: 0.85rem;
@@ -673,6 +674,10 @@ $event-color: $font-color;
       padding-top: 2px;
       text-overflow: clip;
       white-space: nowrap;
+    }
+
+    &-subtitle {
+      font-size: 0.6rem;
     }
   }
 }
