@@ -156,7 +156,7 @@ export default {
 
     events: {
       deep: true,
-      immediate: false,
+      immediate: true,
       handler() {
         this.$nextTick(() => this.init());
       },
@@ -164,9 +164,7 @@ export default {
   },
 
   mounted() {
-    this.$nextTick(() => {
-      this.init();
-    });
+    this.$nextTick(() => this.init());
   },
 
   destroyed() {
@@ -249,16 +247,21 @@ export default {
           const eventTag = document.createElement('div');
           const bleed = this.eventBleed(event.date, event.duration);
           const eventTagHeight = ((event.duration - bleed) * height) / this.config.interval;
-          const titleTag = document.createElement('span');
+          const titleTag = document.createElement('div');
+          const subttitleTag = document.createElement('div');
 
           titleTag.classList.add('dr-agenda__event-title');
           titleTag.innerText = event.title;
+
+          subtitleTag.classList.add('dr-agenda__event-subtitle');
+          subtitleTag.innerText = ('subtitle' in event) ? event.subtitle : '';
 
           eventTag.classList.add('dr-agenda__event');
           event.className.forEach(c => eventTag.classList.add(c));
           eventTag.style.height = `${eventTagHeight}px`;
           eventTag.style.top = `${this.getTopPosition(event.date)}%`;
           eventTag.appendChild(titleTag);
+          eventTag.appendChild(subtitleTag);
 
           column.appendChild(eventTag);
         }
