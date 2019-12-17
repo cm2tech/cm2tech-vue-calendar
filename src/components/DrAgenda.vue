@@ -153,6 +153,14 @@ export default {
         this.$nextTick(() => this.init());
       },
     },
+
+    events: {
+      deep: true,
+      immediate: false,
+      handler() {
+        this.$nextTick(() => this.init());
+      },
+    },
   },
 
   mounted() {
