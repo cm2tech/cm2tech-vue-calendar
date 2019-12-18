@@ -178,6 +178,15 @@ export default {
         this.counter = setInterval(() => { this.now = moment(); }, 60000);
       }
       this.placeEvents();
+      this.scrollToTimemarker();
+    },
+
+    scrollToTimemarker() {
+      const timemarker = document.querySelectorAll('.dr-agenda__timemarker');
+      if (timemarker) {
+        const top = timemarker[0].offsetTop;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
     },
 
     selectDatetime(time, cell) {
