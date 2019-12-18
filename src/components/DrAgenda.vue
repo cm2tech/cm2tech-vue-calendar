@@ -186,7 +186,7 @@ export default {
     },
 
     callFunction(event) {
-      this.config.fn(event.target.getAttribute('datetime'), event);
+      this.config.fn(event, event.target.getAttribute('datetime'));
     },
 
     setDatetime(day, time = 0) {
@@ -256,8 +256,7 @@ export default {
           subtitleTag.classList.add('dr-agenda__event-subtitle');
           subtitleTag.innerText = ('subtitle' in event) ? event.subtitle : '';
 
-          eventTag.classList.add('dr-agenda__event');
-          event.className.forEach(c => eventTag.classList.add(c));
+          eventTag.classList.add('dr-agenda__event', ...event.className);
           eventTag.style.height = `${eventTagHeight}px`;
           eventTag.style.top = `${this.getTopPosition(event.date)}%`;
           eventTag.appendChild(titleTag);
