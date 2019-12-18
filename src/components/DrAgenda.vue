@@ -44,9 +44,9 @@
             class="dr-agenda__grid-column"
           >
             <div
-              v-for="h in config.grid.rows + 1"
+              v-for="(h, index) in config.grid.rows + 1"
               :key="`grid-cell_${d}-${h}`"
-              :datetime="setDatetime(config.weekdays[d - 1].datetime, h)"
+              :datetime="setDatetime(config.weekdays[d - 1].datetime, index)"
               class="dr-agenda__grid-cell"
               @click="callFunction($event)"
             />
@@ -117,7 +117,7 @@ export default {
   computed: {
     config() {
       const copy = { ...settings };
-      Object.keys(this.settings).forEach(key => delete copy[key]);
+      Object.keys(this.settings).forEach((key) => delete copy[key]);
 
       const config = { ...this.settings, ...copy };
       config.interval = moment.duration(config.interval).asMinutes();
@@ -132,6 +132,7 @@ export default {
         rows: Math.floor((config.end - config.start) / config.interval),
       };
       config.fn = ('fn' in this.settings) ? this.settings.fn : this.selectDatetime;
+      config.fnEvent = ('fnEvent' in this.settings) ? this.settings.fnEvent : () => {};
 
       return config;
     },
@@ -181,12 +182,16 @@ export default {
 
     selectDatetime(time, cell) {
       const all = document.querySelectorAll('.dr-agenda__grid-cell');
-      all.forEach(item => item.classList.remove('dr-agenda__grid-cell--selected'));
+      all.forEach((item) => item.classList.remove('dr-agenda__grid-cell--selected'));
       cell.target.classList.add('dr-agenda__grid-cell--selected');
     },
 
     callFunction(event) {
       this.config.fn(event, event.target.getAttribute('datetime'));
+    },
+
+    callFunctionEvent(event, datetime, obj = null) {
+      this.config.fnEvent(event, datetime, obj);
     },
 
     setDatetime(day, time = 0) {
@@ -249,6 +254,8 @@ export default {
           const eventTagHeight = ((event.duration - bleed) * height) / this.config.interval;
           const titleTag = document.createElement('div');
           const subtitleTag = document.createElement('div');
+          const classNames = ('className' in event && Array.isArray(event.className)) ? event.className : [];
+          const isoString = moment(event.date).toISOString();
 
           titleTag.classList.add('dr-agenda__event-title');
           titleTag.innerText = event.title;
@@ -256,11 +263,13 @@ export default {
           subtitleTag.classList.add('dr-agenda__event-subtitle');
           subtitleTag.innerText = ('subtitle' in event) ? event.subtitle : '';
 
-          eventTag.classList.add('dr-agenda__event', ...event.className);
+          eventTag.classList.add('dr-agenda__event', ...classNames);
           eventTag.style.height = `${eventTagHeight}px`;
           eventTag.style.top = `${this.getTopPosition(event.date)}%`;
           eventTag.appendChild(titleTag);
           eventTag.appendChild(subtitleTag);
+          eventTag.setAttribute('datetime', isoString);
+          eventTag.addEventListener('click', (e) => this.callFunctionEvent(e, isoString, event.obj));
 
           column.appendChild(eventTag);
         }
@@ -323,7 +332,7 @@ export default {
         day += 1;
       }
 
-      const selectedDateIndex = weekdays.findIndex(d => d.date.isSame(moment(selectedDate)));
+      const selectedDateIndex = weekdays.findIndex((d) => d.date.isSame(moment(selectedDate)));
 
       switch (true) {
         case (daysView === 1):
@@ -378,11 +387,11 @@ export default {
     },
 
     destroyTimeMarker() {
-      document.querySelectorAll('.dr-agenda__timemarker').forEach(marker => marker.remove());
+      document.querySelectorAll('.dr-agenda__timemarker').forEach((marker) => marker.remove());
     },
 
     destroyEvents() {
-      document.querySelectorAll('.dr-agenda__event').forEach(event => event.remove());
+      document.querySelectorAll('.dr-agenda__event').forEach((event) => event.remove());
     },
   },
 };
