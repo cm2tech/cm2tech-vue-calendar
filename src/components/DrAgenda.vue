@@ -183,7 +183,7 @@ export default {
 
     scrollToTimemarker() {
       const timemarker = document.querySelectorAll('.dr-agenda__timemarker');
-      if (timemarker) {
+      if (timemarker.length > 0) {
         const top = timemarker[0].offsetTop;
         window.scrollTo({ top, behavior: 'smooth' });
       }
