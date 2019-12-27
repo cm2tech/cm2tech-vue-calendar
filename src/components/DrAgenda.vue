@@ -236,16 +236,16 @@ export default {
     },
 
     updateTimeMarker(time) {
-      const marker = document.querySelectorAll('.dr-agenda__timemarker')[0];
+      const marker = document.querySelectorAll('.dr-agenda__timemarker');
 
-      if (marker) {
+      if (marker.length > 0) {
         const agendaStart = moment().startOf('d').minutes(this.config.start);
         const agendaEnd = moment().startOf('d').minutes(this.config.end);
 
         if (time.isSameOrAfter(agendaStart, 'm') && time.isSameOrBefore(agendaEnd, 'm')) {
-          marker.style.top = `${this.getTopPosition(time)}%`;
+          marker[0].style.top = `${this.getTopPosition(time)}%`;
         } else {
-          marker.remove();
+          marker[0].remove();
         }
       }
     },
