@@ -30,6 +30,7 @@
         interval: '00:30',
         fnEvent: log,
         daysView: daysView,
+        scrollToTime: false,
       }"
       :events="[
         {

@@ -68,6 +68,7 @@ const settings = {
   start: '00:00',
   end: '23:00',
   daysView: 7,
+  scrollToTime: true,
 };
 
 export default {
@@ -177,8 +178,12 @@ export default {
       if (this.createTimeMarker()) {
         this.counter = setInterval(() => { this.now = moment(); }, 60000);
       }
+
       this.placeEvents();
-      this.scrollToTimemarker();
+
+      if (this.config.scrollToTime) {
+        this.scrollToTimemarker();
+      }
     },
 
     scrollToTimemarker() {
