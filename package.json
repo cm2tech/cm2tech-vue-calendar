@@ -1,6 +1,6 @@
 {
   "name": "cm2tech-vue-calendar",
-  "version": "1.0.17",
+  "version": "1.0.19",
   "description": "Componentes calendário e agenda em Vue.js para Dr. Conecta.",
   "author": "Alan Ives",
   "license": "MIT",
@@ -30,7 +30,8 @@
     "build": "cross-env NODE_ENV=production rollup --config build/rollup.config.js",
     "build:ssr": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format cjs",
     "build:es": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es",
-    "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife"
+    "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife",
+    "test": "vue serve src/Test.vue"
   },
   "dependencies": {
     "moment": "^2.24.0"

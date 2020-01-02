@@ -326,7 +326,7 @@ export default {
     getWeekdays(daysView, selectedDate) {
       const week = selectedDate.week();
       const weekdayNames = moment.weekdays();
-      const currentWeek = moment().week(week).startOf('w');
+      const currentWeek = moment(selectedDate).week(week).startOf('w');
       const weekdays = [];
       const whichWeekdays = [];
 
