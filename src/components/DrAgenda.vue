@@ -256,6 +256,8 @@ export default {
     },
 
     placeEvents() {
+      const placedEvents = [];
+
       this.destroyEvents();
       const height = document.querySelector('.dr-agenda__grid-cell').offsetHeight;
 
@@ -286,8 +288,12 @@ export default {
           eventTag.addEventListener('click', (e) => this.callFunctionEvent(e, isoString, event.obj));
 
           column.appendChild(eventTag);
+
+          placedEvents.push(event);
         }
+
       });
+      this.$emit('placedEvents', placedEvents);
     },
 
     getTopPosition(date) {
