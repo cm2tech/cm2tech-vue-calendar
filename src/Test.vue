@@ -27,10 +27,12 @@
       :selected-date="selectedDate"
       :settings="{
         fn: log,
-        interval: '00:30',
+        start: '08:00',
+        end: '20:00',
+        interval: '00:40',
         fnEvent: log,
         daysView: daysView,
-        scrollToTime: false,
+        scrollToTime: true,
       }"
       :events="[
         {

@@ -209,7 +209,7 @@ export default {
     },
 
     setDatetime(day, time = 0) {
-      let hours = 0;
+      let hours = this.config.start / 60;
       let minutes = 0;
       const date = moment(day);
 
@@ -291,8 +291,8 @@ export default {
 
           placedEvents.push(event);
         }
-
       });
+
       this.$emit('placedEvents', placedEvents);
     },
 
