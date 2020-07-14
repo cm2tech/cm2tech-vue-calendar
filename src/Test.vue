@@ -2,7 +2,8 @@
   <div>
     <dr-calendar
       v-if="true"
-      :fn="calendarFn"
+      v-model="selectedDate"
+      @change="calendarFn"
     />
 
     <hr>
@@ -78,10 +79,8 @@ export default {
       console.log('obj is', obj);
     },
 
-    calendarFn(date, event) {
+    calendarFn(date) {
       console.log(date);
-      console.log(event);
-      this.selectedDate = date;
     },
   },
 };

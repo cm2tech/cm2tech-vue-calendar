@@ -41,7 +41,7 @@
           :key="`${day.year}${day.month}.${day.day}`"
           :class="day.class"
           class="dr-calendar__day"
-          @click.prevent="selectDay(day, $event)"
+          @click.prevent="selectDay(day)"
         >
           {{ day.day }}
         </div>
@@ -65,6 +65,11 @@ export default {
     },
   },
 
+  model: {
+    prop: 'selectedDate',
+    event: 'change',
+  },
+
   props: {
     selectedDate: {
       type: String,
@@ -76,12 +81,6 @@ export default {
       type: Array,
       required: false,
       default: () => [],
-    },
-
-    fn: {
-      type: Function,
-      required: false,
-      default: () => {},
     },
   },
 
@@ -151,14 +150,23 @@ export default {
     },
   },
 
+  watch: {
+    currentDate: {
+      deep: true,
+      immediate: false,
+      handler(date) {
+        this.$emit('change', moment(date).startOf('d').toISOString());
+      },
+    },
+  },
+
   beforeMount() {
     this.currentDate = { ...moment(this.selectedDate) };
   },
 
   methods: {
-    selectDay(day, event) {
+    selectDay(day) {
       this.currentDate = { ...moment(day) };
-      this.fn(moment(this.currentDate).startOf('d').toISOString(), event);
     },
 
     addMonth(m) {
