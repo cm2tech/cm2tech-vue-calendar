@@ -74,7 +74,7 @@ export default {
     selectedDate: {
       type: String,
       required: false,
-      default: () => (new Date()).toISOString(),
+      default: new Date().toISOString(),
     },
 
     events: {
@@ -161,7 +161,9 @@ export default {
   },
 
   beforeMount() {
-    this.currentDate = { ...moment(this.selectedDate) };
+    this.currentDate = this.selectedDate
+      ? { ...moment(this.selectedDate) }
+      : { ...moment() };
   },
 
   methods: {

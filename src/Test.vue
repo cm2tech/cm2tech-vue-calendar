@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       today: (new Date().toISOString()),
-      selectedDate: (new Date()).toISOString(),
+      selectedDate: null,
       daysView: 7,
     };
   },
