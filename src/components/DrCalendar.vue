@@ -66,12 +66,12 @@ export default {
   },
 
   model: {
-    prop: 'selectedDate',
+    prop: 'date',
     event: 'change',
   },
 
   props: {
-    selectedDate: {
+    date: {
       type: String,
       required: false,
       default: new Date().toISOString(),
@@ -89,6 +89,7 @@ export default {
       today: moment(),
       currentDate: Object,
       weekdayNames: moment.weekdays(),
+      selectedDate: null,
     };
   },
 
@@ -151,24 +152,24 @@ export default {
   },
 
   watch: {
-    currentDate: {
+    selectedDate: {
       deep: true,
       immediate: false,
       handler(date) {
-        this.$emit('change', moment(date).startOf('d').toISOString());
+        this.$emit('change', date);
       },
     },
   },
 
   beforeMount() {
-    this.currentDate = this.selectedDate
-      ? { ...moment(this.selectedDate) }
-      : { ...moment() };
+    this.currentDate = this.date ? { ...moment(this.date) } : { ...moment() };
+    this.selectedDate = moment(this.currentDate).toISOString();
   },
 
   methods: {
     selectDay(day) {
       this.currentDate = { ...moment(day) };
+      this.selectedDate = moment(this.currentDate).toISOString();
     },
 
     addMonth(m) {
