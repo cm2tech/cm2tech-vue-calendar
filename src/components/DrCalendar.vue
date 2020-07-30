@@ -159,6 +159,14 @@ export default {
         this.$emit('change', date);
       },
     },
+
+    date: {
+      deep: true,
+      immediate: false,
+      handler(date) {
+        this.currentDate = date ? { ...moment(date) } : { ...moment() };
+      },
+    },
   },
 
   beforeMount() {

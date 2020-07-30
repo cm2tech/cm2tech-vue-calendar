@@ -9,6 +9,12 @@
     <hr>
 
     <div>
+      <button @click="doIt()">
+        change selected date
+      </button>
+
+      <br>
+
       <code>daysView:</code>
       <select v-model="daysView">
         <option
@@ -66,7 +72,7 @@ export default {
   data() {
     return {
       today: (new Date().toISOString()),
-      selectedDate: null,
+      selectedDate: moment('2020-08-08', 'YYYY-MM-DD', true).toISOString(),
       daysView: 7,
     };
   },
@@ -81,6 +87,10 @@ export default {
 
     calendarFn(date) {
       console.log(date);
+    },
+
+    doIt() {
+      this.selectedDate = moment(this.selectedDate).add(1, 'month').toISOString();
     },
   },
 };
