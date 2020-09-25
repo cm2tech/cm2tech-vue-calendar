@@ -36,7 +36,7 @@
         fn: log,
         start: '08:00',
         end: '20:00',
-        interval: '00:40',
+        interval: '00:15',
         fnEvent: log,
         daysView: daysView,
         scrollToTime: true,

@@ -22,7 +22,7 @@
     <section class="dr-agenda__body">
       <div class="dr-agenda__periods">
         <div
-          v-for="i in config.grid.rows"
+          v-for="i in config.grid.rows - 1"
           :key="`time-${i}`"
           class="dr-agenda__periods-time"
         >
@@ -44,7 +44,7 @@
             class="dr-agenda__grid-column"
           >
             <div
-              v-for="(h, index) in config.grid.rows + 1"
+              v-for="(h, index) in config.grid.rows"
               :key="`grid-cell_${d}-${h}`"
               :datetime="setDatetime(config.weekdays[d - 1].datetime, index)"
               class="dr-agenda__grid-cell"
