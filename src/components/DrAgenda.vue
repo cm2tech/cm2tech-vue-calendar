@@ -305,8 +305,7 @@ export default {
       let minutesTillNow = moment.duration(time.diff(this.config.today)).asMinutes();
       minutesTillNow = parseInt(minutesTillNow, 10) - this.config.start;
 
-      let scale = (this.config.end - this.config.start);
-      scale += this.config.interval; // Last grid row
+      const scale = (this.config.end - this.config.start);
 
       return (minutesTillNow * 100) / scale;
     },

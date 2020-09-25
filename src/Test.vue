@@ -71,7 +71,7 @@ export default {
 
   data() {
     return {
-      today: (new Date().toISOString()),
+      today: (new Date('2020-09-25 19:00').toISOString()),
       selectedDate: moment('2020-08-08', 'YYYY-MM-DD', true).toISOString(),
       daysView: 7,
     };
